@@ -1,5 +1,7 @@
-var product = 0;
+// var product = 0;
 var correct_pos = 5;
+
+var output = 0;
 
 var answer1 = document.getElementById("box1");
 var answer2 = document.getElementById("box2");
@@ -33,28 +35,49 @@ function startcountdown(){
 
 function stopcountdown(){
     clearInterval(action);
-    this.timevalue = "10";
+    this.timevalue = "20";
     document.getElementById("timevalue").innerHTML = this.timevalue;
+}
+
+function tooutput(p,x,y){
+    if(p == 0){
+        output = x * y;
+    }
+    else if(p == 1){
+        output = Math.floor(x/y);
+    }
+    else if(p == 2){
+        output = x + y;
+    }
+    else if(p == 3){
+        output = x - y;
+    }
 }
 
 function generate_q() {
     var x = Math.ceil(Math.random() * 20);
     var y = Math.ceil(Math.random() * 20);
-    product = x * y;
-    document.getElementById("question").innerHTML = x + "x" + y;
+
+    var operator_num = Math.floor(Math.random() * 4);
+    var listarr = ["x","/","+","-"];
+    tooutput(operator_num,x,y);
+
+    // product = x * y;
+    document.getElementById("question").innerHTML = x + listarr[operator_num] + y;
+
     correct_pos = Math.ceil(Math.random() * 4);
-    document.getElementById("box" + correct_pos).innerHTML = product + "";
+    document.getElementById("box" + correct_pos).innerHTML = output + "";
 }
 
 function generate_arr_a() {
-    var answer_list = [product];
+    var answer_list = [output];
 
     var wrong_answer;
     for(i=1; i < 5; i++){
         if(i != correct_pos){
             do{
-                wrong_answer = Math.ceil(Math.random() * 40) + (product - 20);
-            }while(answer_list.indexOf(wrong_answer) > -1) //thats why we have already included the product
+                wrong_answer = Math.ceil(Math.random() * 40) + (output - 20);
+            }while(answer_list.indexOf(wrong_answer) > -1) //thats why we have already included the output
 
             document.getElementById("box" + i).innerHTML = wrong_answer + "";
             answer_list.push(wrong_answer);
@@ -64,7 +87,7 @@ function generate_arr_a() {
 
 function button_click() {
     answer1.onclick = function () {
-        if (answer1.innerHTML == product + "") {
+        if (answer1.innerHTML == output + "") {
             score = parseInt(score,10) + 1;
             document.getElementById("scorevalue").innerHTML = score;
             wrong.style.display = "none";
@@ -84,7 +107,7 @@ function button_click() {
         }
     }
     answer2.onclick = function () {
-        if (answer2.innerHTML == product + "") {
+        if (answer2.innerHTML == output + "") {
             score = parseInt(score,10) + 1;
             document.getElementById("scorevalue").innerHTML = score;
             correct.style.display = "inherit"; //do this
@@ -104,7 +127,7 @@ function button_click() {
         }
     }
     answer3.onclick = function () {
-        if (answer3.innerHTML == product + "") {
+        if (answer3.innerHTML == output + "") {
             score = parseInt(score,10) + 1;
             document.getElementById("scorevalue").innerHTML = score;
             correct.style.display = "inherit"; //do this
@@ -125,7 +148,7 @@ function button_click() {
         }
     }
     answer4.onclick = function () {
-        if (answer4.innerHTML == product + "") {
+        if (answer4.innerHTML == output + "") {
             score = parseInt(score,10) + 1;
             document.getElementById("scorevalue").innerHTML = score;
             correct.style.display = "inherit"; //do this
